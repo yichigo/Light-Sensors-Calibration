@@ -3,6 +3,7 @@ import numpy as np
 from pysolar.solar import *
 import pytz
 import os
+from datetime import datetime
 
 node_id = '10004098'
 dir_in = '../Minolta/'+node_id+'/'
@@ -29,8 +30,8 @@ wavelengths = list(wavelengths)
 
 df = []
 for year in years:
-    for month in months:
-        for day in days:
+    for month in months[:1]:
+        for day in days[:1]:
             dirname = dir_in+year+'/'+month+'/'+day+'/'
             if not os.path.isdir(dirname):
                 continue
@@ -41,13 +42,22 @@ for year in years:
                 if not os.path.isfile(filename):
                     continue
                 df1 = pd.read_csv(filename)
+                mtime = os.path.getmtime(filename)
+
+                df1['UTC'] = pd.to_datetime(df1['Date']+' '+df1[' Time'])
+                mtime = datetime.utcfromtimestamp(os.path.getmtime(filename))
+                time_more = df1['UTC'].iloc[-1] - mtime
+                if abs(time_more.seconds) > 3600:
+                    print("ERROR of time:", filename)
+                df1['UTC'] = df1['UTC'] - time_more
+		
                 # merge into df
                 if len(df)==0:
                     df = df1
                 else:
                     df = pd.concat([df, df1])
 
-df['UTC'] = pd.to_datetime(df['Date']+' '+df[' Time'])
+#df['UTC'] = pd.to_datetime(df['Date']+' '+df[' Time'])
 df = df[['UTC',' Illuminance']+bins]# there is a space in front of variable Illuminance
 df = df.set_index('UTC')
 
@@ -63,9 +73,10 @@ df.drop_duplicates(inplace=True)
 print('data length: ', len(df))
 
 print(df.head())
-df.to_csv(dir_out+node_id+'_raw.csv')
+#df.to_csv(dir_out+node_id+'_raw.csv')
 
 
+df = pd.read_csv(dir_out+node_id+'_raw.csv', parse_dates=True, index_col = 'UTC')
 
 ############### Resample the data by 10 s, and add Zenith Angle ##############
 
@@ -79,14 +90,15 @@ print(df_resample.head())
 # Add Zenith Angle
 timezone = pytz.timezone("UTC")
 #timezone = pytz.timezone('America/Chicago')
-lat = 32+59.53/60
-long = -(96+45.47/60)
+latitude = 32+59.53/60
+longitude = -(96+45.47/60)
 
-zeniths = []
-for i, row in df_resample.iterrows():
-    date = datetime.datetime.strptime(str(i),'%Y-%m-%d %H:%M:%S')
-    date = timezone.localize(date)
-    zeniths.append(90.0-get_altitude(lat, long, date))
-df_resample['Zenith'] = zeniths
 
+df_resample['Zenith'] = df_resample.reset_index()['UTC'].apply(lambda x: 90.0-get_altitude(latitude, longitude, timezone.localize(datetime.strptime(str(x),'%Y-%m-%d %H:%M:%S') ) ) ).values
+#for i, row in df_resample.iterrows():
+#    date = datetime.strptime(str(i),'%Y-%m-%d %H:%M:%S')
+#    date = timezone.localize(date)
+#    zeniths.append(90.0-get_altitude(lat, long, date))
+#df_resample['Zenith'] = zeniths
+print(df_resample)
 df_resample.to_csv(dir_out+node_id+'.csv')

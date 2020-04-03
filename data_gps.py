@@ -18,10 +18,15 @@ for i in range(1,31+1):
         day = '0'+day
     days.append(day)
 
+years = ['2020'] #### no data in 2019
+months = ['1','2','3','4','5','6','7','8','9','10','11','12']
 
-df_gps = []
-for year in ['2020']:#years:
-    for month in ['01','02']:#months:
+
+df_gps = pd.DataFrame()
+for year in years:
+    for month in months:
+        if len(month) == 1:
+            month = '0' + month
         for day in days:
             if len(day) == 1:
                 day = '0' + day
@@ -33,6 +38,7 @@ for year in ['2020']:#years:
             filename = dirname+'MINTS_'+node_id+'_'+sensor_name+'_'+year+'_'+month+'_'+day+'.csv'
             if not os.path.isfile(filename):
                 continue
+            print(filename)
             df1 = pd.read_csv(filename, parse_dates=True, index_col = 'dateTime')
             df1.index.name = 'UTC'
             df1 = df1[['latitude', 'longitude', 'altitude']]
