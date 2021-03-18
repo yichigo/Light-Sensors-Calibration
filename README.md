@@ -2,44 +2,56 @@
 
 ## File Path:
 
-Data of cheap light sensors:	./lightsensors/node_id/...
+Data of cheap light sensors:
 
-Data of Minolta sensor:			./Minolta/node_id/..., where node_id = '10004098'
+	./lightsensors/node_id/...
 
-Data of GPS sensor:				./Minolta/node_id/..., where node_id = '001e0610c2e9'
+Data of Minolta sensor:
+
+	./Minolta/node_id/..., where node_id = '10004098'
+
+Data of GPS sensor:
+
+	./Minolta/node_id/..., where node_id = '001e0610c2e9'
 
 Merged data of Minolta sensor and cheap light sensors:
 
-								./data/
+	./data/
 
-Codes:				./src/
+Codes:
 
-Figures:			./figures/
+	./src/
 
-Trained Models:		./models/
+Figures:
+
+	./figures/
+
+Trained Models:
+
+	./models/
 
 
 ## Data Preprocessing:
 
-To prepare the data of Minolta sensor,
+To prepare the data of Minolta sensor, run:
 
-	run: python data_minolta.py
+	python data_minolta.py
 
-To prepare the data of GPS with Minolta sensor,
+To prepare the data of GPS with Minolta sensor, run:
 
-	run: python data_gps.py
+	python data_gps.py
 
-To prepare the data of 1 cheap light sensor,
+To prepare the data of 1 cheap light sensor, run:
 
-	run: python data_lightsensors.py node_id
+	python data_lightsensors.py node_id
 
-To prepare the data of all the cheap light sensors,
+To prepare the data of all the cheap light sensors, run:
 
-	run: python runall_data_lightsensors.py
+	python runall_data_lightsensors.py
 
-After running all above, we can merge the data of Minolta sensor and other cheap light sensors,
+After running all above, we can merge the data of Minolta sensor and other cheap light sensors, run:
 
-	run: python data_merge.py
+	python data_merge.py
 
 
 
@@ -47,13 +59,13 @@ After running all above, we can merge the data of Minolta sensor and other cheap
 
 Here we recommand the multilayer perceptron (MLP) model, since it is small and fast.
 
-For single wavelength model:
+For single wavelength model, run:
 
-	run model_MLP_single.ipynb
+	model_MLP_single.ipynb
 
-For whole spectrum model:
+For whole spectrum model, run:
 
-	run model_MLP_whole.ipynb
+	model_MLP_whole.ipynb
 
 
 Random Forest and XGB are also good for single wavelength prediction. However, for the whole spectrum prediction, the size of the models are too large and need a long time for tranning.
@@ -61,10 +73,10 @@ Random Forest and XGB are also good for single wavelength prediction. However, f
 
 ## Others
 
-To check the GPS location,
+To check the GPS location, run:
 
-run: cheapSensors.ipynb
+	cheapSensors.ipynb
 
-An example of cheap sensor visaulization,
+An example of cheap sensor visaulization, run:
 
-run: cheapSensors.ipynb
+	cheapSensors.ipynb
