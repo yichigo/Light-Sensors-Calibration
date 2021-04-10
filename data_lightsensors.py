@@ -12,23 +12,37 @@ def main(argv):
     if argv != None:
         node_id = argv[1]
 
-    dir_in = '../lightsensors/'+ node_id + '/'
+    dir_in = '/Volumes/MINTS/raw/'+ node_id + '/'
 
     df_lightsensors = pd.DataFrame()
 
     year_list = os.listdir(dir_in)
     year_list.sort()
+    year_list = ['2019','2020']
+
     for year in year_list: # year
         dir_year = dir_in + year
         if os.path.isfile(dir_year):
             continue
+        print(dir_year)
+        
         month_list = os.listdir(dir_year)
         month_list.sort()
+
+        if year == '2019':
+            month_list = ['12']
+        elif year == '2020':
+            month_list = ['01','02','03','04']
+        else:
+            continue
+        print(month_list)
 
         for month in month_list: # month
             dir_month = dir_year + '/' + month
             if os.path.isfile(dir_month):
                 continue
+            print(dir_month)
+
             day_list = os.listdir(dir_month)
             day_list.sort()
 

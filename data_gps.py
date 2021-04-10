@@ -6,10 +6,9 @@ import os
 
 # GPS data
 node_id = '001e0610c2e9'
-dir_in = '../Minolta/'+ node_id + '/'
+dir_in = '/Volumes/Backup Plus/MINTS/Minolta/'+ node_id + '/'
 dir_out = '../Minolta/'
 sensor_name = 'GPGGA'
-
 
 days = []
 for i in range(1,31+1):
@@ -39,9 +38,8 @@ for year in years:
             if not os.path.isfile(filename):
                 continue
             print(filename)
-            df1 = pd.read_csv(filename, parse_dates=True, index_col = 'dateTime')
+            df1 = pd.read_csv(filename, usecols = ['dateTime','latitude', 'longitude', 'altitude'], parse_dates=True, index_col = 'dateTime')
             df1.index.name = 'UTC'
-            df1 = df1[['latitude', 'longitude', 'altitude']]
             # merge into df
             if len(df_gps)==0:
                 df_gps = df1

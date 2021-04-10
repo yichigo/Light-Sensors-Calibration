@@ -1,15 +1,12 @@
 import pandas as pd
 import numpy as np
-
-import astropy.coordinates as coord
-from astropy.time import Time
-import astropy.units as u
-
+from pysolar.solar import *
+import pytz
 import os
 from datetime import datetime
 
 node_id = '10004098'
-dir_in = '/Volumes/Backup Plus/MINTS/Minolta/'+node_id+'/'
+dir_in = '/Volumns/Backup Plus/MINTS/Minolta/'+node_id+'/'
 dir_out = '../Minolta/'
 
 years = ['2019', '2020'] ####
@@ -31,10 +28,10 @@ for i in range(len(wavelengths)):
 wavelengths = list(wavelengths)
 
 
-df = pd.DataFrame([])
+df = []
 for year in years:
-    for month in months[:]:
-        for day in days[:]:
+    for month in months[:1]:
+        for day in days[:1]:
             dirname = dir_in+year+'/'+month+'/'+day+'/'
             if not os.path.isdir(dirname):
                 continue
@@ -44,39 +41,24 @@ for year in years:
                 filename = dirname+'MINTS_Minolta_'+node_id+'_'+year+'_'+month+'_'+day+'_'+hour+'.csv'
                 if not os.path.isfile(filename):
                     continue
-
-                # check the size of file, skip if the size > 100 mb, which is because Minolta sensor stuck
-                if os.stat(filename).st_size > 100*1000*1000:
-                    continue
-
-                # read data
                 df1 = pd.read_csv(filename)
+                mtime = os.path.getmtime(filename)
 
-                # drop duplicat. Minolta sensor may stuck and generate duplicate data
-                df1.drop_duplicates(subset=[' Illuminance', ' Tcp'], keep = 'first', inplace = True) #  Correlated color temperature (Tcp)
-
-                # merge datetime
                 df1['UTC'] = pd.to_datetime(df1['Date']+' '+df1[' Time'])
-                
-                ##### datetime calibration start #####
-                ##### in 2019, 2020, the datetime was from Minolta sensor and has error
-                ##### remove this process in 2021. In the new version of 2021, datetime is from the PC connected to internet
                 mtime = datetime.utcfromtimestamp(os.path.getmtime(filename))
                 time_more = df1['UTC'].iloc[-1] - mtime
-                
                 if abs(time_more.seconds) > 3600:
                     print("ERROR of time:", filename)
                 df1['UTC'] = df1['UTC'] - time_more
-                ##### datetime calibration end #####
-
-                # merge df1 into df
+		
+                # merge into df
                 if len(df)==0:
                     df = df1
                 else:
                     df = pd.concat([df, df1])
 
 #df['UTC'] = pd.to_datetime(df['Date']+' '+df[' Time'])
-df = df[['UTC',' Illuminance']+bins] # there is a space in front of variable Illuminance
+df = df[['UTC',' Illuminance']+bins]# there is a space in front of variable Illuminance
 df = df.set_index('UTC')
 
 df.columns = ['Illuminance'] + wavelengths
@@ -91,10 +73,10 @@ df.drop_duplicates(inplace=True)
 print('data length: ', len(df))
 
 print(df.head())
-df.to_csv(dir_out+node_id+'_raw.csv')
+#df.to_csv(dir_out+node_id+'_raw.csv')
 
 
-# df = pd.read_csv(dir_out+node_id+'_raw.csv', parse_dates=True, index_col = 'UTC')
+df = pd.read_csv(dir_out+node_id+'_raw.csv', parse_dates=True, index_col = 'UTC')
 
 ############### Resample the data by 10 s, and add Zenith Angle ##############
 
@@ -105,23 +87,18 @@ print(len(df_resample))
 print(df_resample.head())
 
 
-# Add Zenith Angle for the following fixed location
+# Add Zenith Angle
+timezone = pytz.timezone("UTC")
+#timezone = pytz.timezone('America/Chicago')
 latitude = 32+59.53/60
 longitude = -(96+45.47/60)
 
-df_resample = df_resample.reset_index()
-df_resample['UTC'] = df_resample['UTC'].astype(str)
-df_resample['Zenith'] = df_resample.reset_index()['UTC'].apply(lambda x:\
-                                                               coord.get_sun(Time(x, format='iso', scale='utc'))\
-                                                               .transform_to(coord.AltAz(location=coord.EarthLocation(lon=longitude * u.deg, lat=latitude * u.deg),\
-                                                                                         obstime=Time(x, format='iso', scale='utc')
-                                                                                        )
-                                                                            ).zen.degree
-                                                              ).values
+
+df_resample['Zenith'] = df_resample.reset_index()['UTC'].apply(lambda x: 90.0-get_altitude(latitude, longitude, timezone.localize(datetime.strptime(str(x),'%Y-%m-%d %H:%M:%S') ) ) ).values
 #for i, row in df_resample.iterrows():
 #    date = datetime.strptime(str(i),'%Y-%m-%d %H:%M:%S')
 #    date = timezone.localize(date)
 #    zeniths.append(90.0-get_altitude(lat, long, date))
 #df_resample['Zenith'] = zeniths
-print(df_resample.head())
-df_resample.to_csv(dir_out+node_id+'.csv', index = False)
+print(df_resample)
+df_resample.to_csv(dir_out+node_id+'.csv')

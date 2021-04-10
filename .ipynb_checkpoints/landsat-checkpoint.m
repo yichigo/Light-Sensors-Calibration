@@ -32,4 +32,4 @@ title({"Surface Reflectance of Bands: 4 (Red), 3 (Green), 2 (Blue)";...
 xlim([lon(1), lon(end)]);
 ylim([lat(end), lat(1)]);
 set(gca,'FontSize', fontsize);
-% print(gcf, '-dpng', "../figures/spatial/Landsat8/"+ fn+ ".png");
+print(gcf, '-dpng', "../figures/spatial/Landsat8/"+ fn+ ".png");

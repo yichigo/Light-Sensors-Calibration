@@ -1,0 +1,15 @@
+name: geo_env
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - jupyterlab
+  - pip
+  - numpy
+  - pandas
+  - scikit-learn
+  - scipy
+  - matplotlib
+  - opencv
+  - basemap
+  - gdal
