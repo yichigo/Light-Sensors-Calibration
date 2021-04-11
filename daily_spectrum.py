@@ -9,8 +9,6 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.colors
 
-from pysolar.solar import *
-
 
 #cheap_node_list = ['001e06305a6b']
 cheap_node_list = ['001e063059c2', '001e06305a61', '001e06305a6c', '001e06318cd1', '001e06323a05', '001e06305a57', '001e06305a6b', '001e06318c28', '001e063239e3', '001e06323a12']
@@ -20,7 +18,7 @@ dir_out = '../figures/'
 dir_data = '../data/'
 dir_in_cheap = '../lightsensors/'
 
-date_start = datetime.datetime(2020,12,1)
+date_start = datetime.datetime(2019,12,1)
 years = ['2019','2020'] ####
 months = ['1','2','3','4','5','6','7','8','9','10','11','12']
 days = np.array(range(1,31+1)).astype(str) #### np.array(range(1,31+1)).astype(str)
@@ -101,16 +99,17 @@ for year in years:
                 datetime.datetime(year,month,day)
             except ValueError:
                 isValidDate = False
+                
             if not isValidDate:
                 #print(df_iwant.head())
                 continue
             if (datetime.datetime(year,month,day) < date_start):
                 continue
-            print(year, month, day)
-                
-            datetime_start = (datetime.datetime(year, month, day, hour_start_local, 0, 0) + lag)
-            datetime_end   = (datetime.datetime(year, month, day, hour_end_local,   0, 0) + lag)
+            
+            datetime_start = datetime.datetime(year, month, day, hour_start_local, 0, 0) + lag
+            datetime_end   = datetime.datetime(year, month, day, hour_end_local,   0, 0) + lag
             iwant = (df_minolta.index > datetime_start) & (df_minolta.index < datetime_end)
+            
             df_iwant = df_minolta[iwant].copy()
             if len(df_iwant)==0:
                 continue
@@ -119,13 +118,13 @@ for year in years:
             x = (df_iwant.index)# UTC time #.hour.values[:]
             y = np.arange(360, 780+1, 1) # wave length
             xx, yy = np.meshgrid(x, y, sparse=True)
-            z = np.transpose(df_iwant.iloc[:,1:-1].values)
+            z = np.transpose(df_iwant[wavelengths].values)
 
             if np.shape(z)[1] == 0:
                 continue
             
-            fig, ax = plt.subplots(constrained_layout=True, figsize=(20, 10))
             plt.rcParams.update({'font.size': 30})
+            fig, ax = plt.subplots(constrained_layout=True, figsize=(20, 10))
             h = ax.contourf(x,y,z,levels=20, cmap="RdBu_r")
             
             ax.set_title('Daily Spectrum: %02d/%02d/%02d' % (year,month,day), fontsize=40)

@@ -20,25 +20,6 @@ dir_out = '../figures/'
 dir_data = '../data/'
 dir_in_cheap = '../lightsensors/'
 
-date_start = datetime.datetime(2020,2,27)
-years = ['2019','2020'] ####
-months = ['1','2','3','4','5','6','7','8','9','10','11','12']
-days = np.array(range(1,31+1)).astype(str) #### np.array(range(1,31+1)).astype(str)
-days = list(days)
-
-hours = (np.array(range(0,24))).astype(str)
-hours = list(hours)
-
-bins = np.array(range(0,420+1)).astype(str)
-bins = list(bins)
-for i in range(len(bins)):
-    bins[i] = 'Spectrum[' + bins[i] + ']'
-
-wavelengths = np.array(range(360,780+1)).astype(str)
-for i in range(len(wavelengths)):
-    wavelengths[i] = wavelengths[i] + 'nm'
-wavelengths = list(wavelengths)
-
 
 # if data has been preprocessed before, run this directly
 print("Reading Minolta Data")
