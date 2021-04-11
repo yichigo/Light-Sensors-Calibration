@@ -49,6 +49,7 @@ for year in years:
 
 df_gps['latitude'] = (df_gps['latitude'] // 100) + (df_gps['latitude'] % 100)/60
 df_gps['longitude'] = (df_gps['longitude'] // 100) + (df_gps['longitude'] % 100)/60
+df_gps['longitude'] = -df_gps['longitude']
 print(df_gps.head())
 
 print("Median Location:")

@@ -104,24 +104,4 @@ df_resample = df_resample.dropna(axis=0,how='all')
 print(len(df_resample))
 print(df_resample.head())
 
-
-# Add Zenith Angle for the following fixed location
-latitude = 32+59.53/60
-longitude = -(96+45.47/60)
-
-df_resample = df_resample.reset_index()
-df_resample['UTC'] = df_resample['UTC'].astype(str)
-df_resample['Zenith'] = df_resample.reset_index()['UTC'].apply(lambda x:\
-                                                               coord.get_sun(Time(x, format='iso', scale='utc'))\
-                                                               .transform_to(coord.AltAz(location=coord.EarthLocation(lon=longitude * u.deg, lat=latitude * u.deg),\
-                                                                                         obstime=Time(x, format='iso', scale='utc')
-                                                                                        )
-                                                                            ).zen.degree
-                                                              ).values
-#for i, row in df_resample.iterrows():
-#    date = datetime.strptime(str(i),'%Y-%m-%d %H:%M:%S')
-#    date = timezone.localize(date)
-#    zeniths.append(90.0-get_altitude(lat, long, date))
-#df_resample['Zenith'] = zeniths
-print(df_resample.head())
-df_resample.to_csv(dir_out+node_id+'.csv', index = False)
+df_resample.to_csv(dir_out+node_id+'.csv')
