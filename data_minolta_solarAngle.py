@@ -20,12 +20,14 @@ latitude = 32+59.53/60
 longitude = -(96+45.47/60)
 
 # set time zone
+print('Formating UTC string ...')
 time_start = time.time()
 df['UTCtemp'] = df['UTC'].astype(str).apply(lambda x:Time(x, format='iso', scale='utc'))
 print(time.time() - time_start)
 
 
 # calculate sun position, need 1-2 hours
+print('Calculating Solar Position ...')
 time_start = time.time()
 location = coord.EarthLocation(lon=longitude * u.deg, lat=latitude * u.deg)
 df['sun'] = df['UTCtemp'].apply(lambda x:\
@@ -34,10 +36,10 @@ df['sun'] = df['UTCtemp'].apply(lambda x:\
 print(time.time() - time_start)
 
 # sun position quantities
+print('Calculating Zenith angle and Azimuth angle ...')
 time_start = time.time()
 df['Zenith'] = df['sun'].apply(lambda x: x.zen.degree)
 df['Azimuth'] = df['sun'].apply(lambda x: x.az.degree)
-df['Sun Distance'] = df['sun'].apply(lambda x: x.distance.meter)
 print(time.time() - time_start)
 
 
@@ -54,5 +56,5 @@ wavelengths = list(wavelengths)
 
 
 # write data
-columns = ['UTC','Illuminance'] + wavelengths + ['Zenith','Azimuth','Sun Distance']
-df[columns].to_csv(dir_out+node_id+'_sunPosition.csv', index = False)
+columns = ['UTC','Illuminance'] + wavelengths + ['Zenith','Azimuth']
+df[columns].to_csv(dir_out+node_id+'_solarAngle.csv', index = False)

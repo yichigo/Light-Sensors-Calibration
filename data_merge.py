@@ -23,7 +23,7 @@ dir_in_cheap = '../lightsensors/'
 
 # if data has been preprocessed before, run this directly
 print("Reading Minolta Data")
-fn_in = '../Minolta/'+node_id+'_sunPosition.csv' # resampled
+fn_in = '../Minolta/'+node_id+'_solarAngle.csv' # resampled
 df_minolta = pd.read_csv(fn_in, parse_dates=True, index_col = 'UTC')
 
 
