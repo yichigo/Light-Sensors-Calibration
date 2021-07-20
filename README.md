@@ -80,3 +80,9 @@ To check the GPS location, run:
 An example of cheap sensor visaulization, run:
 
 	cheapSensors.ipynb
+
+
+
+
+[![DOI](https://zenodo.org/badge/244495599.svg)](https://zenodo.org/badge/latestdoi/244495599)
+
