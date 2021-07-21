@@ -108,32 +108,15 @@ After running the above steps, we can merge the data of Minolta sensor, GPS sens
 
 
 
-## Run the model
+## Run the ANN model
 
-Here we recommand the multilayer perceptron (MLP) model, since it is small and fast.
-
-For single wavelength model, run:
-
-	model_MLP_single.ipynb
-
-For whole spectrum model, run:
+in jupyter notebook, run:
 
 	model_MLP_whole.ipynb
 
+if you are running the model for the default node '001e06305a6b' with data file '10004098_001e06305a6b.csv', you don't need to do any modification in the codes;
 
-Random Forest and XGB are also good for single wavelength prediction. However, for the whole spectrum prediction, the size of the models are too large and need a long time for tranning.
-
-
-## Others
-
-To check the GPS location, run:
-
-	cheapSensors.ipynb
-
-An example of cheap sensor visaulization, run:
-
-	cheapSensors.ipynb
-
+Otherwise, you might need to manually pick up appropriate datetimes in the testing dataset to "Compare Actual Spectrum and Estimated Spectrum" in a typical weather condition, like sunny or cloudy.
 
 
 
