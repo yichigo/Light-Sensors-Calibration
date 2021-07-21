@@ -5,33 +5,33 @@
 
 ## File Path:
 
-place the codes in this Repository into ./src/ folder, for example:
+Place the codes in this Repository into ./src/ folder, for example:
 
 	./src/model_MLP_whole.ipynb
 
-place the preprocessed data files from [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4946314.svg)](https://doi.org/10.5281/zenodo.4946314)
+Place the preprocessed data files from [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4946314.svg)](https://doi.org/10.5281/zenodo.4946314)
 into ./data/ folder, for example:
 
 	./data/10004098_001e06305a6b.csv
 
-create this folder to save figures:
+Create this folder to save figures:
 
 	./figures/
 
-create this folder to save the trained models:
+Create this folder to save the trained models:
 
 	./models/
 
 
 ## Run the ANN model
 
-in jupyter notebook, run:
+In jupyter notebook, run:
 
 	model_MLP_whole.ipynb
 
 if you are running the model for the default node '001e06305a6b' with data file '10004098_001e06305a6b.csv', you don't need to do any modification in the codes;
 
-Otherwise, you might need to manually pick up appropriate datetimes in the testing dataset to "Compare Actual Spectrum and Estimated Spectrum" in a typical weather condition, like sunny or cloudy.
+otherwise, you might need to manually pick up appropriate datetimes in the testing dataset to "Compare Actual Spectrum and Estimated Spectrum" in a typical weather condition, like sunny or cloudy.
 
 
 
@@ -43,7 +43,7 @@ If you are researchers in our MINTS team, and want to repeat all the work from t
 
 ## File Path:
 
-place the codes in this Repository into ./src/ folder, for example:
+Place the codes in this Repository into ./src/ folder, for example:
 
 	./src/model_MLP_whole.ipynb
 
@@ -59,15 +59,15 @@ Data of GPS sensor:
 
 	./Minolta/node_id/year/month/day/...,  where node_id = '001e0610c2e9'
 
-create this folder to save the preprocessed data files:
+Create this folder to save the preprocessed data files:
 
 	./data/
 
-create this folder to save figures:
+Create this folder to save figures:
 
 	./figures/
 
-create this folder to save the trained models:
+Create this folder to save the trained models:
 
 	./models/
 
