@@ -9,8 +9,6 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.colors
 
-from pysolar.solar import *
-
 
 #cheap_node_list = ['001e06305a6b']
 cheap_node_list = ['001e063059c2', '001e06305a61', '001e06305a6c', '001e06318cd1', '001e06323a05', '001e06305a57', '001e06305a6b', '001e06318c28', '001e063239e3', '001e06323a12']

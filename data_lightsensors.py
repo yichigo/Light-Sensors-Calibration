@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from pysolar.solar import *
 import pytz
 import os
 import sys
