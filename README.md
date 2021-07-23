@@ -127,5 +127,5 @@ Otherwise, you might need to manually pick up appropriate datetimes in the testi
 
 
 
-[![DOI](https://zenodo.org/badge/244495599.svg)](https://zenodo.org/badge/latestdoi/244495599)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5125484.svg)](https://doi.org/10.5281/zenodo.5125484)
 
