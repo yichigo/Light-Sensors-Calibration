@@ -2,7 +2,7 @@
 # MINTS Light Sensors Calibration
 
 
-# Environment Requirements
+## Environment Requirements
 
 	conda env create -f environment.yml
 	conda activate lightsensor_env
