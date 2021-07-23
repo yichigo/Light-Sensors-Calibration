@@ -4,13 +4,11 @@ channels:
   - defaults
 dependencies:
   - python
-  - anaconda
   - jupyter
   - numpy
   - pandas
   - matplotlib
   - scikit-learn
   - shap
-  - shapely
   - astropy
   - pytz

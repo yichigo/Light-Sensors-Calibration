@@ -1,19 +1,8 @@
 
 # Environment Requirements
 
-numpy  
-pandas  
-matplotlib  
-sklearn  
-shap  
-pickle  
-os  
-sys  
-time  
-datetime  
-pytz  
-multiprocessing  
-astropy  
+	conda env create -f environment.yml
+	conda activate lightsensor_env
 
 
 # Run the Codes with the Preprocessed Data from Zenodo
