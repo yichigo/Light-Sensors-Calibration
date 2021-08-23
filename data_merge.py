@@ -40,7 +40,7 @@ df_minolta.drop_duplicates(inplace=True)
 lat_median = float(df_gps[['latitude']].median()) # 32.992192
 lat_delta = 0.001
 
-long_median = float(df_gps[['longitude']].median()) # 32.992192
+long_median = float(df_gps[['longitude']].median()) # -96.757845
 long_delta = 0.001
 
 

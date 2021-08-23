@@ -16,8 +16,8 @@ df = pd.read_csv(dir_in+node_id+'.csv')
 
 
 # Add Zenith Angle for the following fixed location
-latitude = 32+59.53/60
-longitude = -(96+45.47/60)
+latitude = 32+59.53/60  # or use median 32.992192
+longitude = -(96+45.47/60) # or use median -96.757845
 
 # set time zone
 print('Formating UTC string ...')
